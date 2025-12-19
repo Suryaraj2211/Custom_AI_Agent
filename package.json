@@ -1,26 +1,49 @@
 {
-    "name": "free-ai-agent",
+    "name": "ai-agent",
     "version": "1.0.0",
     "description": "A free AI agent powered by Ollama and local LLMs",
-    "main": "dist/index.js",
+    "main": "electron.js",
     "scripts": {
         "build": "tsc",
         "start": "node dist/index.js",
         "dev": "ts-node src/index.ts",
-        "web": "ts-node src/web/server.ts"
+        "web": "ts-node src/web/server.ts",
+        "desktop": "electron .",
+        "build:win": "electron-builder --win"
+    },
+    "build": {
+        "appId": "com.suryaraj.aiagent",
+        "productName": "AI Agent",
+        "directories": {
+            "output": "dist-electron"
+        },
+        "files": [
+            "electron.js",
+            "src/**/*",
+            "public/**/*",
+            "package.json",
+            "node_modules/**/*"
+        ],
+        "win": {
+            "target": "portable",
+            "icon": "public/icon.png"
+        }
     },
     "keywords": [
         "ai",
         "agent",
         "ollama",
-        "typescript"
+        "typescript",
+        "electron"
     ],
-    "author": "",
+    "author": "Suryaraj",
     "license": "MIT",
     "devDependencies": {
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
         "@types/node": "^20.10.0",
+        "electron": "^39.2.7",
+        "electron-builder": "^26.0.12",
         "ts-node": "^10.9.2",
         "typescript": "^5.3.0"
     },
