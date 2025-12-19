@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 AI Code Editor</title>
+    <link rel="stylesheet" href="ide.css">
+</head>
+
+<body>
+    <div class="ide-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Logo -->
+            <div class="logo">
+                <span>🤖</span> AI Editor
+            </div>
+
+            <!-- Project Path -->
+            <div class="project-input">
+                <input type="text" id="projectPath" placeholder="Project path...">
+                <button onclick="loadProject()">📂</button>
+            </div>
+
+            <!-- File Explorer -->
+            <div class="file-explorer">
+                <h3>📁 Files</h3>
+                <div id="fileTree"></div>
+            </div>
+
+            <!-- AI Chat -->
+            <div class="ai-chat">
+                <h3>💬 AI Assistant</h3>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="msg ai">Hi! I can help edit your code. Try: "Add error handling to this function"</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Ask AI to modify code..."
+                        onkeypress="if(event.key==='Enter')sendPrompt()">
+                    <button onclick="sendPrompt()">➤</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Editor Area -->
+        <main class="editor-area">
+            <!-- Tabs -->
+            <div class="tabs" id="tabs">
+                <div class="tab active" data-file="welcome">
+                    <span>Welcome</span>
+                </div>
+            </div>
+
+            <!-- Editor -->
+            <div class="editor-container">
+                <textarea id="codeEditor" class="code-editor"
+                    placeholder="// Open a file to start editing..."></textarea>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span id="fileStatus">No file open</span>
+                <span id="connectionStatus">🔌 Checking...</span>
+            </div>
+        </main>
+    </div>
+
+    <script src="ide.js"></script>
+</body>
+
+</html>

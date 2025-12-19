@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 AI Agent</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🤖 AI Agent</h1>
+            <div class="status" id="status">
+                <span class="dot"></span>
+                <span>Checking Ollama...</span>
+            </div>
+        </header>
+
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="chat">💬 Chat</button>
+            <button class="mode-btn" data-mode="editor">📝 Editor</button>
+            <button class="mode-btn" data-mode="debug">🐛 Debug</button>
+            <button class="mode-btn" data-mode="concept">📚 Concept</button>
+            <button class="mode-btn" data-mode="feature">✨ Feature</button>
+        </div>
+
+        <!-- Project Path -->
+        <div class="input-group">
+            <label>📁 Project Path:</label>
+            <input type="text" id="projectPath" placeholder="C:\path\to\your\project">
+            <button id="scanBtn" class="btn-secondary">Scan</button>
+        </div>
+
+        <!-- Files List (hidden by default) -->
+        <div class="files-panel" id="filesPanel" style="display: none;">
+            <h3>📂 Project Files</h3>
+            <div id="filesList"></div>
+        </div>
+
+        <!-- Chat Mode -->
+        <div class="mode-panel active" id="chatPanel">
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-message ai">
+                    <strong>🤖 AI:</strong> Hello! I'm your AI coding assistant. Ask me anything about your code!
+                </div>
+            </div>
+            <div class="chat-input-group">
+                <input type="text" id="chatInput" placeholder="Type your message..."
+                    onkeypress="if(event.key==='Enter')sendChat()">
+                <button onclick="sendChat()" class="btn-primary">Send</button>
+            </div>
+        </div>
+
+        <!-- Editor Mode -->
+        <div class="mode-panel" id="editorPanel">
+            <div class="editor-header">
+                <span id="currentFileName">No file loaded</span>
+                <div class="editor-actions">
+                    <button onclick="saveFile()" class="btn-secondary">💾 Save</button>
+                    <button onclick="askAI()" class="btn-primary">🤖 Ask AI</button>
+                </div>
+            </div>
+            <textarea id="codeEditor" class="code-editor" placeholder="Click a file to open it..."></textarea>
+            <div class="ai-instruction">
+                <input type="text" id="aiInstruction" placeholder="Ask AI to modify code (e.g., 'Add error handling')"
+                    onkeypress="if(event.key==='Enter')askAI()">
+            </div>
+            <div class="result" id="editorResult"></div>
+        </div>
+
+        <!-- Debug Mode -->
+        <div class="mode-panel" id="debugPanel">
+            <div class="input-group">
+                <label>🐛 Error Message:</label>
+                <textarea id="errorInput" rows="3" placeholder="Paste your error message here..."></textarea>
+            </div>
+            <button onclick="runDebug()" class="btn-primary full-width">Analyze Error</button>
+            <div class="result" id="debugResult"></div>
+        </div>
+
+        <!-- Concept Mode -->
+        <div class="mode-panel" id="conceptPanel">
+            <p>📚 Explain the codebase architecture</p>
+            <button onclick="runConcept()" class="btn-primary full-width">Explain Codebase</button>
+            <div class="result" id="conceptResult"></div>
+        </div>
+
+        <!-- Feature Mode -->
+        <div class="mode-panel" id="featurePanel">
+            <div class="input-group">
+                <label>✨ Feature Request:</label>
+                <textarea id="featureInput" rows="3" placeholder="Describe the feature you want to add..."></textarea>
+            </div>
+            <button onclick="runFeature()" class="btn-primary full-width">Plan Feature</button>
+            <div class="result" id="featureResult"></div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>🤔 Thinking...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
