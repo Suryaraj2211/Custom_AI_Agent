@@ -73,12 +73,81 @@ async function loadProject() {
 function displayFileTree(files) {
     const tree = document.getElementById('fileTree');
 
-    tree.innerHTML = files.map((f, i) => `
-        <div class="file-item" onclick="openFile(${i})" data-path="${f.path}">
-            <span class="icon">${getFileIcon(f.extension)}</span>
-            <span>${f.name}</span>
-        </div>
-    `).join('');
+    // Build folder structure
+    const folderTree = buildFolderTree(files);
+
+    // Render tree
+    tree.innerHTML = renderTree(folderTree, 0);
+}
+
+function buildFolderTree(files) {
+    const root = { folders: {}, files: [] };
+
+    files.forEach((file, index) => {
+        // Get relative path parts
+        const parts = file.path.replace(projectPath, '').replace(/^[/\\]+/, '').split(/[/\\]/);
+        const fileName = parts.pop();
+
+        // Navigate/create folder structure
+        let current = root;
+        parts.forEach(part => {
+            if (!current.folders[part]) {
+                current.folders[part] = { folders: {}, files: [] };
+            }
+            current = current.folders[part];
+        });
+
+        // Add file with index
+        current.files.push({ ...file, index, displayName: fileName });
+    });
+
+    return root;
+}
+
+function renderTree(node, level) {
+    let html = '';
+    const indent = level * 12;
+
+    // Render folders first (sorted)
+    const folderNames = Object.keys(node.folders).sort();
+    folderNames.forEach(folderName => {
+        const folderId = `folder-${folderName}-${level}`.replace(/[^a-zA-Z0-9-]/g, '_');
+        html += `
+            <div class="folder-item" style="padding-left: ${indent}px" onclick="toggleFolder('${folderId}')">
+                <span class="folder-icon" id="icon-${folderId}">📁</span>
+                <span>${folderName}</span>
+            </div>
+            <div class="folder-content" id="${folderId}" style="display: block;">
+                ${renderTree(node.folders[folderName], level + 1)}
+            </div>
+        `;
+    });
+
+    // Then render files (sorted)
+    const sortedFiles = [...node.files].sort((a, b) => a.displayName.localeCompare(b.displayName));
+    sortedFiles.forEach(file => {
+        html += `
+            <div class="file-item" style="padding-left: ${indent}px" onclick="openFile(${file.index})" data-path="${file.path}">
+                <span class="icon">${getFileIcon(file.extension)}</span>
+                <span>${file.displayName}</span>
+            </div>
+        `;
+    });
+
+    return html;
+}
+
+function toggleFolder(folderId) {
+    const content = document.getElementById(folderId);
+    const icon = document.getElementById('icon-' + folderId);
+
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.textContent = '📂';
+    } else {
+        content.style.display = 'none';
+        icon.textContent = '📁';
+    }
 }
 
 function getFileIcon(ext) {

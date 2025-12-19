@@ -124,6 +124,32 @@ body {
     opacity: 0.7;
 }
 
+/* Folder Tree */
+.folder-item {
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.folder-item:hover {
+    background: #2a2d2e;
+}
+
+.folder-icon {
+    font-size: 0.9rem;
+}
+
+.folder-content {
+    margin-left: 0;
+}
+
 /* AI Chat */
 .ai-chat {
     height: 300px;
