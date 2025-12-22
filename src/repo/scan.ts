@@ -26,7 +26,7 @@ const IGNORED_DIRS = [
 ];
 
 // Supported file types
-const SUPPORTED_EXTENSIONS = ['.ts', '.js', '.wgsl'];
+const SUPPORTED_EXTENSIONS = ['.ts', '.js', '.wgsl', '.html', '.css', '.json', '.glsl'];
 
 /**
  * Scan repository and return all matching files with content
